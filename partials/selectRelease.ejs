@@ -1,0 +1,5 @@
+<select id="release">
+    <% releases.forEach(function(release){ %>
+    <option data-release="<%- release.tag_name %>"><%- release.name %></option>
+    <% }) %>
+</select>

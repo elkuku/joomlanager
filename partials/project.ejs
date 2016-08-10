@@ -1,0 +1,31 @@
+<form>
+    <div class="form-label">
+        <label for="name">Name</label>
+        <input id="name" class="form-control">
+    </div>
+    <div class="form-label">
+        <label for="name">Server Path</label>
+        <input id="serverPath" class="form-control pathName" value="<%- config.get('localhost') %>">
+    </div>
+    <div class="form-group">
+        <label for="release">Release</label>
+        <select id="release" class="form-control">
+            <% releases.forEach(function(release, i){ %>
+            <option data-release="<%- i %>"><%- release.name %></option>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="well" id="projectStatus">
+        The project <code><span class="projectName"></span></code> will be created in
+        <div class="pathName"><span class="projectPath"></span>/<span class="projectName"></span> <span class="pathStatus"></span></div>
+        Using release: <span class="release"></span> <span class="releaseStatus"></span>
+    </div>
+
+    <div class="form-group">
+        <button id="btnSaveProject" type="button" class="btn btn-sm btn-success">
+            Create Project
+        </button>
+    </div>
+
+</form>
