@@ -1,5 +1,9 @@
 var fs = require('fs'),
-    http = require('request')
+    //http = require('request'),
+    Conf = require('conf'),
+    config = new Conf(),
+    joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {},
+    content = require('../modules/content')
 
 module.exports = {
     GitHubURL: 'https://github.com/joomla/joomla-cms',
@@ -49,19 +53,31 @@ module.exports = {
         var GitHub = require('octonode')
 
         var client = GitHub.client()
+        client.get('/repos/joomla/joomla-cms/releases', function (err, status, body) {
 
-        var response = client.get('/repos/joomla/joomla-cms/releases', function (err, status, body) {
-            console.log(body); //json object
+            if (err) {
+                console.log(err)
+                $('#console').text(err)
+            } else {
+                joomlaGitHub.releases = body
 
-            return body
+                config.set('joomlaGitHub', joomlaGitHub)
+
+                //updateInfo()
+                content.init('')
+
+                $('#content').html(content.tpl('releases', {releases:joomlaGitHub.releases}))
+            }
         });
+    },
+    findDownloadPackage: function(release) {
+        var asset = null
+        release.assets.forEach(function(a){
+            if (a.content_type == 'application/x-gzip' && a.name.includes('Full')) {
+                asset = a
+            }
+        })
 
-        return response;
-
-        var repo = client.repo;
-
-        console.log(repo)
-
-        return repo.releases()
+        return asset
     }
 }
