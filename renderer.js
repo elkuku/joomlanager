@@ -5,7 +5,6 @@ $(function () {
         configuration = require('./modules/configuration'),
         content = require('./modules/content'),
         joomla = require('./modules/joomla'),
-        asset = require('./modules/asset'),
         project = require('./modules/project'),
         repository = require('./modules/repository')
 
@@ -34,7 +33,7 @@ $(function () {
     })
 
     cmdBox.find('[data-toggle=reload]').on('click', function () {
-        content.init(content.tpl('alert', {type: 'info', message: 'Reloading...'}))
+        content.init('', content.tpl('alert', {type: 'info', message: 'Reloading...'}))
         joomla.getReleases()
 
         return false;
@@ -51,4 +50,6 @@ $(function () {
 
         return false;
     })
+
+    content.fillProjectList()
 })

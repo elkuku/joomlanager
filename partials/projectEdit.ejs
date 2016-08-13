@@ -1,0 +1,21 @@
+<form>
+    <div class="form-label">
+        <label for="name">Name</label>
+        <input id="name" disabled="disabled" class="form-control" value="<%= project.name %>">
+    </div>
+    <div class="form-label">
+        <label for="name">Server Path</label>
+        <input id="serverPath" class="form-control pathName" value="<%- config.get('localhost') %>">
+    </div>
+    <div class="form-label">
+        <label for="name">Installed Version</label>
+        <input id="name" disabled="disabled" class="form-control" value="<%= project.installedVersion %>">
+    </div>
+
+    <div class="form-group">
+        <button id="btnSaveProject" type="button" class="btn btn-sm btn-success">
+            Save
+        </button>
+    </div>
+
+</form>

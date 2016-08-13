@@ -6,7 +6,7 @@ module.exports = {
     exists: function (asset) {
         return fs.existsSync(this.assetDir + '/' + asset.name)
     },
-    download: function (asset, destination) {
+    download: function (asset, destination, cb) {
         var http = require('request'),
             assetDir = this.assetDir,
             modalConsole = $('#modalConsole')
@@ -20,7 +20,7 @@ module.exports = {
             modalConsole.text('Found in cache: ' + asset.name)
 
             if (destination) {
-                archive.extract(assetDir + '/' + asset.name, destination)
+                archive.extract(assetDir + '/' + asset.name, destination, cb)
             }
 
             return
@@ -54,7 +54,7 @@ module.exports = {
                     console.log('finished')
                     modalConsole.append(' Finished')
                     if (destination) {
-                        archive.extract(assetDir + '/' + asset.name, destination)
+                        archive.extract(assetDir + '/' + asset.name, destination, cb)
                     }
                 })
             })

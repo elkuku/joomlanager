@@ -1,6 +1,5 @@
 var fs = require('fs')
 
-
 module.exports = {
     repoDir: '../repository',
     exists: function () {

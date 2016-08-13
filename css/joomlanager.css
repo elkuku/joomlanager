@@ -43,6 +43,16 @@ div.body.row {
     font-family: monospace;
 }
 
+ul#navigation li:hover {
+    background-color: #e7e7e7;
+    cursor: pointer;
+}
+
+ul#navigation li.selected {
+    background-color: #cbcbcb;
+    cursor: default;
+}
+
 #modalConsoleError {
     color: red;
 }

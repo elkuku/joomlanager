@@ -6,9 +6,7 @@ var Conf = require('conf'),
 
 module.exports = {
     show: function () {
-        $('#header').html('<h3><img src="img/logo.png" height="70px"/> Configuration</h3>');
-        $('#content').html(content.tpl('config', {config:config}));
-        $('#console').html('');
+        content.init('Configuration', content.tpl('config', {config:config}))
 
         $('#cfgTheme').on('change', function () {
             var e = $('head link#styleSheet');
@@ -34,7 +32,7 @@ module.exports = {
             config.set('debug', debug);
             config.set('theme', theme);
 
-            content.init(content.tpl('alert', {type:'info', message:'Config saved.'}));
+            content.init('', content.tpl('alert', {type:'info', message:'Config saved.'}));
         });
     }
 }

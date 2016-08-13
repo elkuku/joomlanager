@@ -39,6 +39,27 @@ div.body.row {
     border: 1px solid silver;
 }
 
+
+.pathName {
+    font-family: monospace;
+}
+
+ul#navigation li:hover {
+    background-color: #e7e7e7;
+    color: black;
+    cursor: pointer;
+}
+
+ul#navigation li.selected {
+    background-color: #cbcbcb;
+    color: black;
+    cursor: default;
+}
+
+#modalConsoleError {
+    color: red;
+}
+
 footer {
     border: 1px solid silver;
     font-size: 0.8em;

@@ -1,14 +1,15 @@
-var fs = require('fs')
+var fs = require('fs'),
+    project = require('./project')
 
 module.exports = {
-    extract: function (path, destination) {
+    extract: function (path, destination, cb) {
         if (path_is_a_tar_gz = true) {
-            this.extractTarGz(path, destination)
+            this.extractTarGz(path, destination, cb)
         } else {
             extract_something_else = true
         }
     },
-    extractTarGz: function (path, destination) {
+    extractTarGz: function (path, destination, cb) {
         var targz = require('tar.gz')
 
         $('#modalConsoleExtract').html('Extracting the package&hellip;')
@@ -22,6 +23,10 @@ module.exports = {
 
         write.on('end', function(){
             $('#modalConsoleExtract').append('Finished extracting.')
+            if (cb) {
+                cb()
+            }
+            //project.saveForm()
             $('#modalStatus').modal('hide')
         })
 

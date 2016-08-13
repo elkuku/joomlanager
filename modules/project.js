@@ -2,16 +2,14 @@ var fs = require('fs'),
     Conf = require('conf'),
     config = new Conf(),
     {dialog} = require('electron').remote,
-    asset = require('../modules/asset'),
+    packages = require('../modules/packages'),
     content = require('../modules/content'),
     joomla = require('../modules/joomla'),
     joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {}
 
 module.exports = {
     new: function () {
-        $('#header').html('<h3><img src="img/logo.png" height="70px"/> New Project</h3>');
-        $('#content').html(content.tpl('project', {releases:joomlaGitHub.releases, config:config}));
-        $('#console').html('');
+        content.init('New Project', content.tpl('project', {releases:joomlaGitHub.releases, config:config}))
 
         this.updateInfo()
 
@@ -89,7 +87,7 @@ module.exports = {
                 keyboard: false
             })
 
-            asset.download(selectedAsset, projectPath)
+            packages.download(selectedAsset, projectPath, parent.saveForm)
 
             return false
         });
@@ -123,21 +121,48 @@ module.exports = {
 
         projectName = inputName.val() ? inputName.val() : '<name>'
 
-        if (assetObject) {
-            if(asset.exists(assetObject)) {
-                assetStatus = '<span class="alert-info">Cached</span>'
-            } else {
-                assetStatus = '<span class="alert-warning">Download Pending</span>'
-            }
-
-        } else {
-            assetStatus = '<span class="alert-danger">Invalid!</span>'
-        }
+        assetStatus =
+            assetObject ?
+                packages.exists(assetObject) ?
+                    '<span class="alert-info">Cached</span>' :
+                    '<span class="alert-warning">Download Pending</span>' :
+                '<span class="alert-danger">Invalid!</span>'
 
         statusProjectName.text(projectName)
         statusProjectPath.text(projectPath)
         statusRelease.text(selectRelease.val())
         statusReleaseStatus.html(assetStatus)
         statusPathStatus.html(pathStatus)
+    },
+    saveForm: function () {
+        var inputName = $('#name')
+            , inputServerPath = $('#serverPath')
+            , projectPath = inputServerPath.val()
+            , chkIsSubDir = $('#chkIsSubDir')
+            , selectRelease = $('#release')
+
+        if (chkIsSubDir.is(':checked')) {
+            projectPath += '/' + inputName.val()
+        }
+
+        var project = {
+            name: inputName.val(),
+            serverPath: projectPath,
+            installedVersion: selectRelease.val()
+            // @todo more here
+        }
+
+        var projects = config.get('joomlanager.projects')
+
+        if (projects) {
+            projects.push(project)
+            config.set('joomlanager.projects', projects)
+
+        } else {
+            config.set('joomlanager.projects', [project])
+        }
+
+        content.fillProjectList()
+        content.showProject(project.name)
     }
 }

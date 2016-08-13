@@ -63,10 +63,7 @@ module.exports = {
 
                 config.set('joomlaGitHub', joomlaGitHub)
 
-                //updateInfo()
-                content.init('')
-
-                $('#content').html(content.tpl('releases', {releases:joomlaGitHub.releases}))
+                content.init('Project Joomla!', content.tpl('releases', {releases:joomlaGitHub.releases}))
             }
         });
     },
