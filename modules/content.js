@@ -3,10 +3,11 @@ var pjson = require('./../package.json'),
     ejs = require('ejs'),
     Conf = require('conf'),
     config = new Conf()
+    , fse = require('fs-extra')
 
 module.exports = {
     init: function (header, content, console) {
-        var headerText = header ? header :  pjson.productName + ' <code>' + pjson.version + '</code>',
+        var headerText = header ? header : pjson.productName + ' <code>' + pjson.version + '</code>',
             contentText = content ? content : '',
             consoleText = console ? console : ''
 
@@ -22,8 +23,15 @@ module.exports = {
             caller = this
 
         if (projects) {
+            projects.sort(function (a, b) {
+                if (a.name < b.name)
+                    return -1
+                if (a.name > b.name)
+                    return 1
+                return 0
+            })
             navigation.empty()
-            projects.forEach(function(project) {
+            projects.forEach(function (project) {
                 navigation.append('<li>' + project.name + '</li>')
             })
             navigation.find('li').on('click', function () {
@@ -37,6 +45,7 @@ module.exports = {
     showProject: function (name) {
         var projects = config.get('joomlanager.projects'),
             project = null
+            , caller = this
 
         projects.forEach(function (p) {
             if (p.name == name) {
@@ -51,6 +60,36 @@ module.exports = {
         }
 
         this.init('Edit Project', this.tpl('projectEdit', {project: project, config: config}))
+
+        $('#btnDeleteProject').on('click', function () {
+            var name = $('#name').val()
+            for (var key in projects) {
+                if (projects[key].name == name) {
+                    projects.splice(key, 1);
+                }
+            }
+
+            config.set('joomlanager.projects', projects)
+
+            caller.fillProjectList()
+        })
+
+        $('#btnDeleteProjectFiles').on('click', function () {
+            $(this).text('Deleting...')
+            var name = $('#name').val()
+            for (var key in projects) {
+                if (projects[key].name == name) {
+                    console.log(projects[key])
+                    fse.removeSync(projects[key].serverPath)
+                    projects.splice(key, 1);
+                }
+            }
+
+            config.set('joomlanager.projects', projects)
+
+            caller.init()
+            caller.fillProjectList()
+        })
     },
 
     /**
@@ -69,5 +108,15 @@ module.exports = {
         object.filename = path
 
         return ejs.render(tpl.toString(), object)
+    },
+
+    /**
+     * Load a modal from template.
+     *
+     * @param {Object} properties must contain "id"
+     */
+    loadModal: function (properties) {
+        console.log('loading template', properties)
+        $('#modal').html(this.tpl(properties.id, properties))
     }
 }

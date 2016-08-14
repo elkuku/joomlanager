@@ -1,7 +1,8 @@
 var fs = require('fs'),
     Conf = require('conf'),
     config = new Conf(),
-    {dialog} = require('electron').remote,
+    {dialog} = require('electron').remote
+    , {shell} = require('electron'),
     packages = require('../modules/packages'),
     content = require('../modules/content'),
     joomla = require('../modules/joomla'),
@@ -14,14 +15,20 @@ module.exports = {
         this.updateInfo()
 
         var inputName = $('#name'),
-            projectStatus = $('#projectStatus'),
-            serverPath = $('#serverPath'),
+            inputLocalURL = $('#localURL')
+            , serverPath = $('#serverPath'),
             selectRelease = $('#release'),
             chkStableOnly = $('#chkStableOnly'),
             chkIsSubDir = $('#chkIsSubDir'),
+            chkURL = $('#chkURL'),
+            projectStatus = $('#projectStatus'),
             parent = this
 
         inputName.on('input', function () {
+            parent.updateInfo()
+        })
+
+        inputLocalURL.on('input', function () {
             parent.updateInfo()
         })
 
@@ -30,6 +37,10 @@ module.exports = {
         })
 
         selectRelease.on('change', function () {
+            parent.updateInfo()
+        })
+
+        chkURL.change(function() {
             parent.updateInfo()
         })
 
@@ -51,8 +62,9 @@ module.exports = {
             parent.updateInfo()
         })
 
-        chkStableOnly.prop('checked', true).change();
-        chkIsSubDir.prop('checked', true).change();
+        chkStableOnly.prop('checked', true).change()
+        chkIsSubDir.prop('checked', true).change()
+        chkURL.prop('checked', true).change()
 
         $('#btnSaveProject').on('click', function () {
             var selected = selectRelease.find(':selected'),
@@ -60,6 +72,7 @@ module.exports = {
                 projectName = inputName.val(),
                 selectedAsset = joomla.findDownloadPackage(release),
                 projectPath = $('#serverPath').val()
+                , modalStatus = $('#modalStatus')
 
             if (chkIsSubDir.is(':checked')) {
                 projectPath += '/' + projectName
@@ -78,10 +91,12 @@ module.exports = {
                 return false
             }
 
-            $('#modal').html(content.tpl('modalStatus', {id: 'modalStatus', header: 'Creating your project&hellip;'}))
+            content.loadModal({id: 'modalStatus', header: 'Creating your project&hellip;'})
+            //$('#modal').html(content.tpl('modalStatus', {id: 'modalStatus', header: 'Creating your project&hellip;'}))
 
-            $('#modalStatus').find('.close').hide()
+            modalStatus.find('.close').hide()
 
+            // Something fishy here - can't use var object - modal wont open ;(
             $('#modalStatus').modal({
                 backdrop: 'static',
                 keyboard: false
@@ -90,11 +105,12 @@ module.exports = {
             packages.download(selectedAsset, projectPath, parent.saveForm)
 
             return false
-        });
+        })
     },
     updateInfo: function () {
         var inputName = $('#name'),
             inputServerPath = $('#serverPath'),
+            inputLocalURL = $('#localURL'),
             selectRelease = $('#release'),
             release = joomlaGitHub.releases[selectRelease.find(':selected').data('release')],
 
@@ -104,10 +120,13 @@ module.exports = {
             statusRelease = projectStatus.find('.release'),
             statusReleaseStatus = projectStatus.find('.releaseStatus'),
             statusPathStatus = projectStatus.find('.pathStatus'),
+            statusURL = projectStatus.find('.localURL a'),
             chkIsSubDir = $('#chkIsSubDir')
+            , chkURL = $('#chkURL')
+
 
         var assetObject = joomla.findDownloadPackage(release),
-            assetStatus, projectName, projectPath, pathStatus = ''
+            assetStatus, projectName, projectPath, pathStatus, localURL
 
         projectPath = inputServerPath.val()
 
@@ -115,6 +134,13 @@ module.exports = {
             projectPath += '/' + inputName.val()
         }
 
+        if (chkURL.is(':checked')) {
+            localURL = 'http://localhost/' + inputName.val()
+            inputLocalURL.val(localURL)
+        } else {
+            localURL = inputLocalURL.val()
+        }
+        
         pathStatus = fs.existsSync(projectPath)
             ? '<span class="alert-warning">Exists</span>'
             : '<span class="alert-success">Empty</span>'
@@ -128,6 +154,12 @@ module.exports = {
                     '<span class="alert-warning">Download Pending</span>' :
                 '<span class="alert-danger">Invalid!</span>'
 
+        statusURL.text(localURL)
+        statusURL.on('click', function () {
+            shell.openExternal(localURL)
+            return false
+        })
+
         statusProjectName.text(projectName)
         statusProjectPath.text(projectPath)
         statusRelease.text(selectRelease.val())
@@ -136,18 +168,28 @@ module.exports = {
     },
     saveForm: function () {
         var inputName = $('#name')
+            , inputLocalURL = $('#url')
             , inputServerPath = $('#serverPath')
             , projectPath = inputServerPath.val()
             , chkIsSubDir = $('#chkIsSubDir')
             , selectRelease = $('#release')
+            , chkURL = $('#chkURL')
+            , localURL
 
         if (chkIsSubDir.is(':checked')) {
             projectPath += '/' + inputName.val()
         }
 
+        if (chkURL.is(':checked')) {
+            localURL = 'http://localhost/' + inputName.val()
+        } else {
+            localURL = inputLocalURL.val()
+        }
+
         var project = {
             name: inputName.val(),
             serverPath: projectPath,
+            localURL: localURL,
             installedVersion: selectRelease.val()
             // @todo more here
         }

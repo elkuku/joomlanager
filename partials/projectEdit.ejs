@@ -5,7 +5,12 @@
     </div>
     <div class="form-label">
         <label for="name">Server Path</label>
-        <input id="serverPath" class="form-control pathName" value="<%- config.get('localhost') %>">
+        <input id="serverPath" class="form-control pathName" value="<%= project.serverPath %>">
+    </div>
+    <div class="form-label">
+        <label for="name">Local URL</label>
+        <div class="localURL"><a></a></div>
+        <input id="localURL" class="form-control" value="<%= project.localURL %>">
     </div>
     <div class="form-label">
         <label for="name">Installed Version</label>
@@ -17,5 +22,12 @@
             Save
         </button>
     </div>
-
+    <div class="form-group text-right">
+        <button id="btnDeleteProject" type="button" class="btn btn-sm btn-danger">
+            Delete Project
+        </button>
+        <button id="btnDeleteProjectFiles" type="button" class="btn btn-sm btn-danger">
+            Delete Project Files
+        </button>
+    </div>
 </form>
