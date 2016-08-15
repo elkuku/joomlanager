@@ -1,5 +1,5 @@
-var fs = require('fs'),
-    archive = require('./archive')
+var fs = require('fs')
+    , archive = require('./archive')
 
 module.exports = {
     assetDir: './packages',
@@ -7,9 +7,9 @@ module.exports = {
         return fs.existsSync(this.assetDir + '/' + asset.name)
     },
     download: function (asset, destination, cb) {
-        var http = require('request'),
-            assetDir = this.assetDir,
-            modalConsole = $('#modalConsole')
+        var http = require('request')
+            , assetDir = this.assetDir
+            , modalConsole = $('#modalConsole')
 
         if (false == fs.existsSync(assetDir)) {
             fs.mkdirSync(assetDir)
@@ -41,8 +41,8 @@ module.exports = {
                     $('#modalConsoleError').text('File not found!')
                 }
                 //console.log(response.headers['content-type'])
-                var totalBytes = 0,
-                    mb
+                var totalBytes = 0
+                    , mb
 
                 response.on('data', function (data) {
                     totalBytes += data.length

@@ -1,12 +1,13 @@
 $(function () {
     const
-        Conf = require('conf'),
-        config = new Conf(),
-        configuration = require('./modules/configuration'),
-        content = require('./modules/content'),
-        joomla = require('./modules/joomla'),
-        project = require('./modules/project'),
-        repository = require('./modules/repository')
+        Conf = require('conf')
+        , config = new Conf()
+        , configuration = require('./modules/configuration')
+        , content = require('./modules/content')
+        , joomla = require('./modules/joomla')
+        , project = require('./modules/project')
+        , repository = require('./modules/repository')
+        , cmdBox = $('.cmdBoxNavi')
 
     // Check if "Wheit" (Light) theme is selected
     if ('Bläk' == config.get('theme')) {
@@ -18,25 +19,24 @@ $(function () {
     content.init()
 
     // Setup buttons
-    var cmdBox = $('.cmdBoxNavi')
 
     cmdBox.find('[data-toggle=new]').on('click', function () {
         project.new()
 
-        return false;
+        return false
     })
 
     cmdBox.find('[data-toggle=config]').on('click', function () {
         configuration.show()
 
-        return false;
+        return false
     })
 
     cmdBox.find('[data-toggle=reload]').on('click', function () {
         content.init('', content.tpl('alert', {type: 'info', message: 'Reloading...'}))
         joomla.getReleases()
 
-        return false;
+        return false
     })
 
     cmdBox.find('[data-toggle=theme]').on('click', function () {
@@ -48,7 +48,7 @@ $(function () {
             e.attr('href', 'css/joomlanager_dark.css')
         }
 
-        return false;
+        return false
     })
 
     content.fillProjectList()

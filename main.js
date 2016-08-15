@@ -1,14 +1,13 @@
-"use strict";
+"use strict"
 
 const
-    electron = require('electron'),
-    Conf = require('conf'),
-    config = new Conf(),
+    electron = require('electron')
+    , Conf = require('conf')
+    , config = new Conf()
     // Module to control application life.
-    app = electron.app,
-    //NativeImage = require('native-image'),
+    , app = electron.app
     // Module to create native browser window.
-    BrowserWindow = electron.BrowserWindow
+    , BrowserWindow = electron.BrowserWindow
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -25,7 +24,7 @@ function createWindow() {
         icon: 'img/logo.png'
     })
 
-    //mainWindow.setMenu(null);
+    //mainWindow.setMenu(null)
 
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/index.html`)

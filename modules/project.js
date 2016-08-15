@@ -1,28 +1,28 @@
-var fs = require('fs'),
-    Conf = require('conf'),
-    config = new Conf(),
-    {dialog} = require('electron').remote
-    , {shell} = require('electron'),
-    packages = require('../modules/packages'),
-    content = require('../modules/content'),
-    joomla = require('../modules/joomla'),
-    joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {}
+var fs = require('fs')
+    , Conf = require('conf')
+    , config = new Conf()
+    , {dialog} = require('electron').remote
+    , {shell} = require('electron')
+    , packages = require('../modules/packages')
+    , content = require('../modules/content')
+    , joomla = require('../modules/joomla')
+    , joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {}
 
 module.exports = {
     new: function () {
-        content.init('New Project', content.tpl('project', {releases:joomlaGitHub.releases, config:config}))
+        content.init('New Project', content.tpl('project', {releases: joomlaGitHub.releases, config: config}))
 
         this.updateInfo()
 
-        var inputName = $('#name'),
-            inputLocalURL = $('#localURL')
-            , serverPath = $('#serverPath'),
-            selectRelease = $('#release'),
-            chkStableOnly = $('#chkStableOnly'),
-            chkIsSubDir = $('#chkIsSubDir'),
-            chkURL = $('#chkURL'),
-            projectStatus = $('#projectStatus'),
-            parent = this
+        var inputName = $('#name')
+            , inputLocalURL = $('#localURL')
+            , serverPath = $('#serverPath')
+            , selectRelease = $('#release')
+            , chkStableOnly = $('#chkStableOnly')
+            , chkIsSubDir = $('#chkIsSubDir')
+            , chkURL = $('#chkURL')
+            , projectStatus = $('#projectStatus')
+            , parent = this
 
         inputName.on('input', function () {
             parent.updateInfo()
@@ -40,12 +40,12 @@ module.exports = {
             parent.updateInfo()
         })
 
-        chkURL.change(function() {
+        chkURL.change(function () {
             parent.updateInfo()
         })
 
-        chkStableOnly.change(function() {
-            if($(this).is(':checked')) {
+        chkStableOnly.change(function () {
+            if ($(this).is(':checked')) {
                 selectRelease.find('option').each(function (i, option) {
                     if (/Candidate|Beta|Alpha/.test($(option).text())) {
                         $(option).hide()
@@ -56,9 +56,9 @@ module.exports = {
                     $(option).show()
                 })
             }
-        });
+        })
 
-        chkIsSubDir.change(function() {
+        chkIsSubDir.change(function () {
             parent.updateInfo()
         })
 
@@ -67,11 +67,11 @@ module.exports = {
         chkURL.prop('checked', true).change()
 
         $('#btnSaveProject').on('click', function () {
-            var selected = selectRelease.find(':selected'),
-                release = joomlaGitHub.releases[selected.data('release')],
-                projectName = inputName.val(),
-                selectedAsset = joomla.findDownloadPackage(release),
-                projectPath = $('#serverPath').val()
+            var selected = selectRelease.find(':selected')
+                , release = joomlaGitHub.releases[selected.data('release')]
+                , projectName = inputName.val()
+                , selectedAsset = joomla.findDownloadPackage(release)
+                , projectPath = $('#serverPath').val()
                 , modalStatus = $('#modalStatus')
 
             if (chkIsSubDir.is(':checked')) {
@@ -108,25 +108,25 @@ module.exports = {
         })
     },
     updateInfo: function () {
-        var inputName = $('#name'),
-            inputServerPath = $('#serverPath'),
-            inputLocalURL = $('#localURL'),
-            selectRelease = $('#release'),
-            release = joomlaGitHub.releases[selectRelease.find(':selected').data('release')],
+        var inputName = $('#name')
+            , inputServerPath = $('#serverPath')
+            , inputLocalURL = $('#localURL')
+            , selectRelease = $('#release')
+            , release = joomlaGitHub.releases[selectRelease.find(':selected').data('release')]
 
-            projectStatus = $('#projectStatus'),
-            statusProjectName = projectStatus.find('.projectName'),
-            statusProjectPath = projectStatus.find('.projectPath'),
-            statusRelease = projectStatus.find('.release'),
-            statusReleaseStatus = projectStatus.find('.releaseStatus'),
-            statusPathStatus = projectStatus.find('.pathStatus'),
-            statusURL = projectStatus.find('.localURL a'),
-            chkIsSubDir = $('#chkIsSubDir')
+            , projectStatus = $('#projectStatus')
+            , statusProjectName = projectStatus.find('.projectName')
+            , statusProjectPath = projectStatus.find('.projectPath')
+            , statusRelease = projectStatus.find('.release')
+            , statusReleaseStatus = projectStatus.find('.releaseStatus')
+            , statusPathStatus = projectStatus.find('.pathStatus')
+            , statusURL = projectStatus.find('.localURL a')
+            , chkIsSubDir = $('#chkIsSubDir')
             , chkURL = $('#chkURL')
 
 
-        var assetObject = joomla.findDownloadPackage(release),
-            assetStatus, projectName, projectPath, pathStatus, localURL
+        var assetObject = joomla.findDownloadPackage(release)
+            , assetStatus, projectName, projectPath, pathStatus, localURL
 
         projectPath = inputServerPath.val()
 
@@ -140,7 +140,7 @@ module.exports = {
         } else {
             localURL = inputLocalURL.val()
         }
-        
+
         pathStatus = fs.existsSync(projectPath)
             ? '<span class="alert-warning">Exists</span>'
             : '<span class="alert-success">Empty</span>'
@@ -187,10 +187,10 @@ module.exports = {
         }
 
         var project = {
-            name: inputName.val(),
-            serverPath: projectPath,
-            localURL: localURL,
-            installedVersion: selectRelease.val()
+            name: inputName.val()
+            , serverPath: projectPath
+            , localURL: localURL
+            , installedVersion: selectRelease.val()
             // @todo more here
         }
 

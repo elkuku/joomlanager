@@ -12,23 +12,20 @@ module.exports = {
 
         require('simple-git')()
             .outputHandler(function (command, stdout, stderr) {
-                stdout.pipe(process.stdout);
-                stderr.pipe(process.stderr);
+                stdout.pipe(process.stdout)
+                stderr.pipe(process.stderr)
             })
-            .then(function() {
-                console.log('Starting clone...');
+            .then(function () {
+                console.log('Starting clone...')
                 $('#console').text('Start cloning...')
             })
             //.clone('https://github.com/joomla/joomla-cms.git', this.repoDir)
             .clone('https://github.com/elkuku/lilhelpers.git', this.repoDir)
-            .then(function() {
-                console.log('clone done.');
+            .then(function () {
+                console.log('clone done.')
                 $('#console').text('clone done')
-            });
+            })
 
         //@todo ui response
-    },
-    fetch: function () {
-
     }
 }

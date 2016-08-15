@@ -8,8 +8,8 @@
         <input id="serverPath" class="form-control pathName" value="<%= project.serverPath %>">
     </div>
     <div class="form-label">
-        <label for="name">Local URL</label>
-        <div class="localURL"><a></a></div>
+        <label for="name">Local URL <span class="localURL"><a></a></span></label>
+
         <input id="localURL" class="form-control" value="<%= project.localURL %>">
     </div>
     <div class="form-label">
@@ -31,3 +31,6 @@
         </button>
     </div>
 </form>
+
+<h3>Status</h3>
+<ul id="projectStatus" class="list-unstyled"></ul>

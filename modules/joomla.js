@@ -1,9 +1,8 @@
-var fs = require('fs'),
-    //http = require('request'),
-    Conf = require('conf'),
-    config = new Conf(),
-    joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {},
-    content = require('../modules/content')
+var fs = require('fs')
+    , Conf = require('conf')
+    , config = new Conf()
+    , joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {}
+    , content = require('../modules/content')
 
 module.exports = {
     GitHubURL: 'https://github.com/joomla/joomla-cms',
@@ -35,11 +34,11 @@ module.exports = {
      * @returns {{}}
      */
     readConfig: function (path) {
-        var cfgFile = fs.readFileSync(path).toString().split("\n"),
-            config = {},
-            result, line
+        var cfgFile = fs.readFileSync(path).toString().split("\n")
+            , config = {}
+            , result, line
 
-        for(line in cfgFile) {
+        for (line in cfgFile) {
             result = cfgFile[line].match(/public \$(.*) = '(.*)';/)
             if (result) {
                 config[result[1]] = result[2]
@@ -51,8 +50,8 @@ module.exports = {
 
     getReleases: function () {
         var GitHub = require('octonode')
+            , client = GitHub.client()
 
-        var client = GitHub.client()
         client.get('/repos/joomla/joomla-cms/releases', function (err, status, body) {
 
             if (err) {
@@ -63,13 +62,13 @@ module.exports = {
 
                 config.set('joomlaGitHub', joomlaGitHub)
 
-                content.init('Project Joomla!', content.tpl('releases', {releases:joomlaGitHub.releases}))
+                content.init('Project Joomla!', content.tpl('releases', {releases: joomlaGitHub.releases}))
             }
-        });
+        })
     },
-    findDownloadPackage: function(release) {
+    findDownloadPackage: function (release) {
         var asset = null
-        release.assets.forEach(function(a){
+        release.assets.forEach(function (a) {
             if (a.content_type == 'application/x-gzip' && a.name.includes('Full')) {
                 asset = a
             }

@@ -1,5 +1,5 @@
-var fs = require('fs'),
-    project = require('./project')
+var fs = require('fs')
+    , project = require('./project')
 
 module.exports = {
     extract: function (path, destination, cb) {
@@ -11,11 +11,11 @@ module.exports = {
     },
     extractTarGz: function (path, destination, cb) {
         var targz = require('tar.gz')
+            , read = fs.createReadStream(path)
+            , write = targz().createWriteStream(destination)
 
         $('#modalConsoleExtract').html('Extracting the package&hellip;')
 
-        var read = fs.createReadStream(path)
-        var write = targz().createWriteStream(destination);
 
         write.on('entry', function(entry){
             $('#modalConsoleExtract').text('Extracting: ' + entry.path)
@@ -31,7 +31,7 @@ module.exports = {
         })
 
         write.on('error', function (err) {
-            console.log('Something is wrong ', err.stack);
+            console.log('Something is wrong ', err.stack)
             $('#modalConsoleError').html('Something is wrong ', err.stack)
             $('#modalStatus').find('.close').show()
         })
