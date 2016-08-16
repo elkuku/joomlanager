@@ -28,9 +28,9 @@ module.exports = {
                 return
             }
 
-            config.set('localhost', localhost)
-            config.set('debug', debug)
-            config.set('theme', theme)
+            config.set('joomlanager.localhost', localhost)
+            config.set('joomlanager.debug', debug)
+            config.set('joomlanager.theme', theme)
 
             content.init('', content.tpl('alert', {type: 'info', message: 'Config saved.'}))
         })

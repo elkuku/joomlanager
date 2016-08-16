@@ -6,7 +6,7 @@ var fs = require('fs')
     , packages = require('../modules/packages')
     , content = require('../modules/content')
     , joomla = require('../modules/joomla')
-    , joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {}
+    , joomlaGitHub = config.get('joomlanager.joomlaGitHub') ? config.get('joomlanager.joomlaGitHub') : {}
 
 module.exports = {
     new: function () {

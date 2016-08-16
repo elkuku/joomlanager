@@ -14,7 +14,7 @@ const
 let mainWindow
 
 function createWindow() {
-    var bgColor = ('Wheit' == config.get('theme')) ? '#ffffff' : '#1e1e1e'
+    var bgColor = ('Wheit' == config.get('joomlanager.theme')) ? '#ffffff' : '#1e1e1e'
 
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -30,7 +30,7 @@ function createWindow() {
     mainWindow.loadURL(`file://${__dirname}/index.html`)
 
     // Open the DevTools.
-    if (config.get('debug')) {
+    if (config.get('joomlanager.debug')) {
         mainWindow.webContents.openDevTools()
     }
 

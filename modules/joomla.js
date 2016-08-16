@@ -1,7 +1,7 @@
 var fs = require('fs')
     , Conf = require('conf')
     , config = new Conf()
-    , joomlaGitHub = config.get('joomlaGitHub') ? config.get('joomlaGitHub') : {}
+    , joomlaGitHub = config.get('joomlanager.joomlaGitHub') ? config.get('joomlanager.joomlaGitHub') : {}
     , content = require('../modules/content')
 
 module.exports = {
@@ -60,7 +60,7 @@ module.exports = {
             } else {
                 joomlaGitHub.releases = body
 
-                config.set('joomlaGitHub', joomlaGitHub)
+                config.set('joomlanager.joomlaGitHub', joomlaGitHub)
 
                 content.init('Project Joomla!', content.tpl('releases', {releases: joomlaGitHub.releases}))
             }

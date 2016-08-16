@@ -7,14 +7,15 @@ $(function () {
         , joomla = require('./modules/joomla')
         , project = require('./modules/project')
         , repository = require('./modules/repository')
-        , cmdBox = $('.cmdBoxNavi')
 
     // Check if "Wheit" (Light) theme is selected
-    if ('Bläk' == config.get('theme')) {
+    if ('Bläk' == config.get('joomlanager.theme')) {
         $('head link#styleSheet').attr('href', 'css/joomlanager_dark.css')
     }
 
     $('.header.row.navi').html(content.tpl('cmdBox', {}))
+
+    var cmdBox = $('.cmdBoxNavi')
 
     content.init()
 

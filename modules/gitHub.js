@@ -10,7 +10,7 @@ module.exports = {
             } else {
                 joomlaGitHub.releases = body
 
-                config.set('joomlaGitHub', joomlaGitHub)
+                config.set('config.joomlaGitHub', joomlaGitHub)
 
                 updateInfo()
             }

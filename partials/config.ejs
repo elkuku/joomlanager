@@ -1,18 +1,18 @@
 <form>
     <div class="form-group">
-        <label for="workDir">Work directory</label>
-        <input class="form-control" id="cfgLocalhost" value="<%=config.get('localhost')%>" placeholder="/srv/www/htdocs">
+        <label for="workDir">Server Root</label>
+        <input class="form-control" id="cfgLocalhost" value="<%=config.get('joomlanager.localhost')%>" placeholder="/srv/www/htdocs">
     </div>
      <div class="form-group">
         <label for="cfgTheme">Theme</label>
         <select id="cfgTheme" class="form-control">
-            <option<% if ('Bläck' == config.get('theme')) { %> selected="selected"<% } %>>Bläk</option>
-            <option<% if ('Wheit' == config.get('theme')) { %> selected="selected"<% } %>>Wheit</option>
+            <option<% if ('Wheit' == config.get('joomlanager.theme')) { %> selected="selected"<% } %>>Wheit</option>
+            <option<% if ('Bläk' == config.get('joomlanager.theme')) { %> selected="selected"<% } %>>Bläk</option>
         </select>
      </div>
    <div class="checkbox">
         <label>
-            <input type="checkbox" id="cfgDebug"<% if (config.get('debug')) { %> checked="checked"<% } %>> Debug
+            <input type="checkbox" id="cfgDebug"<% if (config.get('joomlanager.debug')) { %> checked="checked"<% } %>> Debug
         </label>
     </div>
     <div class="form-group">

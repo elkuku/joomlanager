@@ -13,7 +13,7 @@ module.exports = {
             , contentText = content ? content : ''
             , consoleText = console ? console : ''
 
-        $('#header').html('<h2><img src="img/logo.png" height="70px"/> ' + headerText + '</h2>')
+        $('#header').html('<h4><img src="img/logo.png" height="70px"/> ' + headerText + '</h4>')
         $('#content').html(contentText)
         $('#console').html(consoleText)
         $('footer .product').html('<img src="img/logo.png" height="24px"/> ' + pjson.productName + ' ' + pjson.version + ' - ')
@@ -107,17 +107,15 @@ module.exports = {
             , ok = '<span class="alert-success glyphicon glyphicon-ok"></span>'
             , error = '<span class="alert-danger glyphicon glyphicon-remove"></span>'
 
-        if (joomla.isJoomla(serverPath)) {
-            list.append('<li>Is Joomla! ' + ok + '</li>')
-            if (joomla.hasConfig(serverPath)) {
-                list.append('<li>Config found</li>')
-
-            } else {
-                list.append('<li>Config NOT found! ' + error + '</li>')
-
-            }
+        if (false == joomla.isJoomla(serverPath)) {
+            list.append('<li>Is NOT Joomla! ' + error + '</li>')
         } else {
-            list.append('<li>Is NOT Joomla!</li>')
+            list.append('<li>Is Joomla! ' + ok + '</li>')
+            if (false == joomla.hasConfig(serverPath)) {
+                list.append('<li>Config NOT found! ' + error + '</li>')
+            } else {
+                list.append('<li>Config found ' + ok + '</li>')
+            }
         }
     },
 

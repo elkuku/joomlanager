@@ -37,20 +37,20 @@ body {
 }
 
 .header.row {
-    height: 100px;
-    line-height: 100px;
+    height: 80px;
+    line-height: 80px;
 }
 
 .body.row {
-    top: 100px;
-    bottom: 50px;
+    top: 80px;
+    bottom: 30px;
     padding: 5px;
 }
 
 .footer.row {
-    height: 50px;
+    height: 30px;
     bottom: 0;
-    line-height: 50px;
+    line-height: 30px;
 }
 
 .header.row.navi {
@@ -64,6 +64,7 @@ body {
     bottom: 0;
 }
 
+/*
 div.header.row.navi {
     border: 1px solid silver;
 }
@@ -79,6 +80,7 @@ div#header {
 div.body.row {
     border: 1px solid silver;
 }
+*/
 
 .pathName {
     font-family: monospace;
@@ -99,7 +101,6 @@ ul#navigation li.selected {
 }
 
 footer {
-    border: 1px solid silver;
     font-size: 0.8em;
     text-align: center;
 }
